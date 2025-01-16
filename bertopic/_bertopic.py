@@ -149,7 +149,6 @@ class BERTopic:
         ctfidf_model: TfidfTransformer = None,
         representation_model: BaseRepresentation = None,
         verbose: bool = False,
-        reviews: DataFrame = None,
     ):
         """BERTopic initialization.
 
@@ -231,7 +230,6 @@ class BERTopic:
         self.low_memory = low_memory
         self.calculate_probabilities = calculate_probabilities
         self.verbose = verbose
-        self.reviews = reviews
         self.seed_topic_list = seed_topic_list
         self.zeroshot_topic_list = zeroshot_topic_list
         self.zeroshot_min_similarity = zeroshot_min_similarity
