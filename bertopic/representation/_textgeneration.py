@@ -149,8 +149,7 @@ class TextGeneration(BaseRepresentation):
 
             for review in docs:
                 score = topic_model.reviews.loc[topic_model.reviews['splitreview'] == review, 'roBERTa-score'].values[0]
-                rounded_score = round(score, 3)
-                ordered_scores.append(rounded_score)
+                ordered_scores.append(score)
 
             # Prepare prompt
             truncated_docs = (
