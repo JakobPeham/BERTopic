@@ -17,6 +17,7 @@ import inspect
 import collections
 import numpy as np
 import pandas as pd
+from pandas import DataFrame
 import scipy.sparse as sp
 
 from tqdm import tqdm
