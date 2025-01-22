@@ -144,13 +144,20 @@ class TextGeneration(BaseRepresentation):
 
         updated_topics = {}
         for topic, docs in tqdm(repr_docs_mappings.items(), disable=not topic_model.verbose):
+
+            ordered_scores = []
+
+            for review in docs:
+                score = topic_model.reviews.loc[topic_model.reviews['splitreview'] == review, 'roBERTa-score'].values[0]
+                ordered_scores.append(score)
+
             # Prepare prompt
             truncated_docs = (
                 [truncate_document(topic_model, self.doc_length, self.tokenizer, doc) for doc in docs]
                 if docs is not None
                 else docs
             )
-            prompt = self._create_prompt(truncated_docs, topic, topics)
+            prompt = self._create_prompt(truncated_docs, topic, topics, ordered_scores)
             self.prompts_.append(prompt)
 
             # Extract result from generator and use that as label
@@ -166,7 +173,7 @@ class TextGeneration(BaseRepresentation):
 
         return updated_topics
 
-    def _create_prompt(self, docs, topic, topics):
+    def _create_prompt(self, docs, topic, topics, ordered_scores):
         keywords = ", ".join(list(zip(*topics[topic]))[0])
 
         # Use the default prompt and replace keywords
