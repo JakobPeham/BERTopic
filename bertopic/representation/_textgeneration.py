@@ -149,7 +149,8 @@ class TextGeneration(BaseRepresentation):
 
             for review in docs:
                 score = topic_model.reviews.loc[topic_model.reviews['splitreview'] == review, 'roBERTa-score'].values[0]
-                ordered_scores.append(score)
+                rounded_score = round(score, 3)
+                ordered_scores.append(rounded_score)
 
             # Prepare prompt
             truncated_docs = (
@@ -188,8 +189,8 @@ class TextGeneration(BaseRepresentation):
                 prompt = prompt.replace("[KEYWORDS]", keywords)
             if "[DOCUMENTS]" in prompt:
                 to_replace = ""
-                for doc in docs:
-                    to_replace += f"- {doc}\n"
+                for doc, score in zip(docs, ordered_scores):
+                    to_replace += f"- '{doc}' with a score of {score}\n"
                 prompt = prompt.replace("[DOCUMENTS]", to_replace)
 
         return prompt
