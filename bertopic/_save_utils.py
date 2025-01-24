@@ -381,8 +381,8 @@ def save_config(model, path: str, embedding_model):
 
     # Embedding model tag to be used in sentence-transformers
     # Exclude DataFrame from being serialized
-    if isinstance(embedding_model, pd.DataFrame):
-        config["embedding_model"] = "DataFrame not serialized"
+    if isinstance(config['reviews'], pd.DataFrame):
+        config["reviews"] = "DataFrame not serialized"
     else:
         config["embedding_model"] = embedding_model
 
