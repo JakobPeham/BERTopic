@@ -379,10 +379,13 @@ def save_config(model, path: str, embedding_model):
     config = {param: value for param, value in params.items() if "model" not in param}
 
     # Embedding model tag to be used in sentence-transformers
-    if isinstance(embedding_model, str):
+    # Exclude DataFrame from being serialized
+    if isinstance(embedding_model, pd.DataFrame):
+        config["embedding_model"] = "DataFrame not serialized"
+    else:
         config["embedding_model"] = embedding_model
 
-    with path.open("w") as f:
+with path.open("w") as f:
         json.dump(config, f, indent=2)
 
     return config
