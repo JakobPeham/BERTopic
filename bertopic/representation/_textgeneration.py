@@ -148,7 +148,7 @@ class TextGeneration(BaseRepresentation):
             ordered_scores = []
 
             for review in docs:
-                score = topic_model.reviews.loc[topic_model.reviews['splitreview'] == review, 'roBERTa-score'].values[0]
+                score = _get_score(topic_model, review)
                 ordered_scores.append(score)
 
             # Prepare prompt
@@ -172,6 +172,18 @@ class TextGeneration(BaseRepresentation):
             updated_topics[topic] = topic_description
 
         return updated_topics
+
+
+    # Function to get the score
+    def get_score(topic_model, review):
+        if 'splitreview' in topic_model.columns:
+            score = topic_model.loc[topic_model['splitreview'] == review, 'roBERTa-score'].values[0]
+        elif 'review' in topic_model.columns:
+            score = topic_model.loc[topic_model['review'] == review, 'roBERTa-score'].values[0]
+        else:
+            raise ValueError("Neither 'splitreview' nor 'review' column exists in the DataFrame")
+        return
+
 
     def _create_prompt(self, docs, topic, topics, ordered_scores):
         keywords = ", ".join(list(zip(*topics[topic]))[0])
