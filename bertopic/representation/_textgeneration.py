@@ -175,7 +175,7 @@ class TextGeneration(BaseRepresentation):
 
 
     # Function to get the score
-    def get_score(topic_model, review):
+    def _get_score(topic_model, review):
         if 'splitreview' in topic_model.columns:
             score = topic_model.loc[topic_model['splitreview'] == review, 'roBERTa-score'].values[0]
         elif 'review' in topic_model.columns:
