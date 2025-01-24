@@ -177,9 +177,9 @@ class TextGeneration(BaseRepresentation):
     # Function to get the score
     def _get_score(self, topic_model, review):
         if 'splitreview' in topic_model.reviews.columns:
-            score = topic_model.reviews.loc[topic_model['splitreview'] == review, 'roBERTa-score'].values[0]
+            score = topic_model.reviews.loc[topic_model.reviews['splitreview'] == review, 'roBERTa-score'].values[0]
         elif 'review' in topic_model.reviews.columns:
-            score = topic_model.reviews.loc[topic_model['review'] == review, 'roBERTa-score'].values[0]
+            score = topic_model.reviews.loc[topic_model.reviews['review'] == review, 'roBERTa-score'].values[0]
         else:
             raise ValueError("Neither 'splitreview' nor 'review' column exists in the DataFrame")
 
