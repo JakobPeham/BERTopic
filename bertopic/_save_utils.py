@@ -385,7 +385,7 @@ def save_config(model, path: str, embedding_model):
     else:
         config["embedding_model"] = embedding_model
 
-with path.open("w") as f:
+    with path.open("w") as f:
         json.dump(config, f, indent=2)
 
     return config
